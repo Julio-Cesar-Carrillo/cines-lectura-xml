@@ -15,57 +15,54 @@
     <title>Título de la página</title>
     <!-- ícono de pàgina -->
     <!-- fuentes -->
-    <!-- javascript -->
 </head>
 
 <body>
-    <?php
+<?php
+    if (file_exists('./xml/encartelera.xml')){
         $films = simplexml_load_file('./xml/encartelera.xml');
-    ?>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
+    } else {
+        exit('Error abriendo cartelera.xml');
+    }
+?>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <!-- items -->
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                <?php
-                $aux=[];
-                foreach($films->film as $film){
-                    if(!in_array((string)$film['cine'],$aux)){
-                        echo '<li class="nav-item">';
-                        echo '<a class="nav-link active" aria-current="page" href="#">'.$film['cine'].'</a>';
-                        echo '</li>';
-                        array_push($aux,(string)$film['cine']);
-                    }
-                } 
-                ?>
-                </ul>
-            </div>
-        </div>
-    </nav>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <?php
+                            $aux=[];
+                            foreach($films->film as $film){
+                                if(!in_array((string)$film['cine'],$aux)){
+                                echo '<li class="nav-item">';
+                                echo '<a class="nav-link active" aria-current="page" href="#">'.$film['cine'].'</a>';
+                                echo '</li>';
+                                array_push($aux,(string)$film['cine']);
+                                }
+                            } 
+                        ?>
+                    </ul>
+                </div>
+    </div>
+</nav>
     <!-- End Navbar -->
-    <div class="row">
+    <div class="row-c">
         <div class="column-1">
             <?php
-        if (file_exists('./xml/encartelera.xml')) {
             $films = simplexml_load_file('./xml/encartelera.xml');
             foreach($films->film as $film){
                 echo $film->title. ' - ';
                 echo $film->description['tema']. '<br>';
             }
-            //print_r($films);
-        } else {
-        exit('Error abriendo encartelera.xml.');
-        }
-        ?>
-
+            ?>
         </div>
     </div>
 </body>
