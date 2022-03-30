@@ -97,6 +97,12 @@ body {
 
 /* Otras clases */
 
+img {
+    height: 80vh;
+    padding: 1%;
+    object-fit: cover;
+}
+
 
 /* clase para centrar contenido en horizontal y vertical (lo centra respecto al elemento padre) */
 
@@ -118,5 +124,8 @@ body {
     /* column-4 pasará de tener 25% a 50% */
     .column-4 {
         width: 50%;
+    }
+    .sacar {
+        display: none;
     }
 }

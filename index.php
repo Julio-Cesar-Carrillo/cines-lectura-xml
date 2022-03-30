@@ -26,45 +26,96 @@
     }
 ?>
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href=".">Inicio</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <!-- items -->
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
                         <?php
                             $aux=[];
                             foreach($films->film as $film){
                                 if(!in_array((string)$film['cine'],$aux)){
                                 echo '<li class="nav-item">';
-                                echo '<a class="nav-link active" aria-current="page" href="#">'.$film['cine'].'</a>';
+                                if (isset($_GET['cine'])&&$_GET['cine']==(string)$film['cine']){
+                                    echo '<a class="nav-link active" aria-current="page" href="?cine='.$film['cine'].'">'.$film['cine'].'</a>';
+                                }else{
+                                    echo '<a class="nav-link" aria-current="page" href="?cine='.$film['cine'].'">'.$film['cine'].'</a>';
+                                }
                                 echo '</li>';
                                 array_push($aux,(string)$film['cine']);
                                 }
-                            } 
+                            }
                         ?>
                     </ul>
                 </div>
     </div>
 </nav>
-    <!-- End Navbar -->
-    <div class="row-c">
-        <div class="column-1">
+<!-- End Navbar -->
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="img/foto1.jpeg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="img/foto2.jpeg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="img/foto3.jpeg" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<!-- End carousel -->
+<div class="row-c">
+    <div class="column-1">
+        <table class="table table-dark table-striped">
             <?php
-            $films = simplexml_load_file('./xml/encartelera.xml');
-            foreach($films->film as $film){
-                echo $film->title. ' - ';
-                echo $film->description['tema']. '<br>';
-            }
+                echo '<tr class="table-secondary">
+                     <th>Pelicula</th>
+                     <th class="sacar">Descripción</th>
+                     <th>Tema</th>
+                     </tr>';
+                if (isset($_GET['cine'])){
+                    foreach($films->film as $film){
+                        if ($_GET['cine']==$film['cine']){
+                        echo '<tr class="table-success">';
+                        echo '<td>'.$film->title. '</td>';
+                        // imprimir el contenido del atributo 'tema'
+                        echo '<td class="sacar">'.$film->description.'</td>';
+                        echo '<td>'.$film->description['tema']. '</td>';
+                        echo '</tr>';
+                        }
+                    }
+                } else{
+                    foreach($films->film as $film){
+                        echo '<tr class="table-success">';
+                        echo '<td>'.$film->title.'</td>';
+                        echo '<td class="sacar">'.$film->description.'</td>';
+                        echo '<td>'.$film->description['tema'].'</td>';
+                        echo '</tr>';
+                    }
+                }
             ?>
+            </table>
         </div>
     </div>
+
 </body>
 
 </html>
